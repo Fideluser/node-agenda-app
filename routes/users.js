@@ -17,9 +17,8 @@ router.post('/add', function(req, res, next) {
   var persons = require('../public/data/persons.json');
   //var strPersons = fs.readFileSync('./public/data/persons.json');
   //var persons = JSON.parse(strPersons);
-
-  var id = new Date().getTime();
   
+  const id = new Date().getTime();
   persons.push({
     id,
     firstName,
@@ -38,25 +37,6 @@ router.post('/add', function(req, res, next) {
 });
 
 
-router.delete('/delete', function(req, res, next) {
-  var id = req.body.id;
-  console.warn('remove person', id);
-  
-  var persons = require('../public/data/persons.json');
-  
-  var remainingPersons = persons.filter(function(person) {
-    return person.id != id; 
-  });
-  
-  var str = JSON.stringify(remainingPersons, null, 2);
-  fs.writeFileSync('./public/data/persons.json', str);
-
-  res.json({
-    success: true,
-    message: 'Done!'
-  });
-});
-
 router.put('/update', function(req, res, next) {
   const id = req.body.id;
   const firstName = req.body.firstName;
@@ -72,7 +52,6 @@ router.put('/update', function(req, res, next) {
   person.firstName = firstName;
   person.lastName = lastName;
   person.phone = phone;
-
   
   var str = JSON.stringify(persons, null, 2);
   fs.writeFileSync('./public/data/persons.json', str);
@@ -80,6 +59,25 @@ router.put('/update', function(req, res, next) {
   res.json({
     success: true,
     id,
+    message: 'Done!'
+  });
+});
+
+router.delete('/delete', function(req, res, next) {
+  var id = req.body.id;
+  console.warn('remove person', id);
+  
+  var persons = require('../public/data/persons.json');
+  
+  var remainingPersons = persons.filter(function(person) {
+    return person.id != id; 
+  });
+  
+  var str = JSON.stringify(remainingPersons, null, 2);
+  fs.writeFileSync('./public/data/persons.json', str);
+
+  res.json({
+    success: true,
     message: 'Done!'
   });
 });
